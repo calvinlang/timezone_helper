@@ -4,6 +4,7 @@
   "name": "Timezone Helper",
   "description": "This will make scheduling in different timezones easy",
   "version": "0.1",
+  "options_page": "last_screen.html",
 
   "browser_action": {
    "default_icon": "icon.png",
