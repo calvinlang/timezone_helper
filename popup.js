@@ -1,21 +1,39 @@
 $('document').ready(function(){
-	$(".selection").append(localStorage["lastSave"]);
-	$(".add_button").click(function() {
-		$(".selection").append(timezoneSelector);
-		saveSelectionData()
-	});
-	$('select').select(function(){
-		saveSelectionData()
-	});
-	saveSelectionData()
-
+	if (localStorage["selectionsInitial"] === undefined) {
+		localStorage["selectionsInitial"] = []
+	}
+	var selectionsInitial = JSON.parse("[" + localStorage["selectionsInitial"] + "]");
+	initializeSavedSelections(selectionsInitial)
 });
 
-function saveSelectionData(){
-	var selections = $('select')
-	localStorage.lastSave = ""
-	for (i=0; i<selections.length; i++){
-		localStorage.lastSave = localStorage.lastSave + selections[i].outerHTML
+
+
+function initializeSavedSelections(indexValues) {
+	console.log( indexValues )
+	if (indexValues.length > 0) {
+		for (i=0; i<indexValues.length; i++) {
+			$(".selection").append(timezoneSelector)
+			$(".selection select")[i].selectedIndex = indexValues[i]
+		}
+	} else {
+		$(".selection").append(timezoneSelector);
+		$selections = $('select')
 	}
+	saveSelectionData
 }
 
+function saveSelectionData(){
+	var $selections = $('select')
+
+	var selectionsInitial = []
+	for (i=0; i<$selections.length; i++){
+		selectionsInitial.push($selections[i].selectedIndex)
+	}
+	localStorage.selectionsInitial = selectionsInitial
+}
+
+
+
+// To get the value in the select box but this only does the top one
+
+// $( "select option:selected" ).attr("timeZoneId")
