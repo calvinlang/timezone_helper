@@ -1,25 +1,55 @@
 $('document').ready(function(){
 	if (localStorage["selectionsInitial"] === undefined) {
-		localStorage["selectionsInitial"] = []
+		localStorage["selectionsInitial"] = [0,0]
 	}
 	var selectionsInitial = JSON.parse("[" + localStorage["selectionsInitial"] + "]");
 	initializeSavedSelections(selectionsInitial)
+	$("select").on("change", function(){
+		saveSelectionData()
+	})
+	$("#add_button").click( function() {
+		$(".selection").append(timezoneSelector + remove_button)
+		saveSelectionData()
+	})
+	$(".remove_button").click(function(){
+		$(this).parent("div").remove()
+		saveSelectionData()
+	})
+
+	$("#create").click(function(){
+		calculateTimeDifferences()
+	})
+
 });
 
+// $("select").find(':selected')[0].text for the text
+// sel = $('select')[0]
+// sel.options[sel.selectedIndex].getAttribute('value') to get the values
 
+function calculateTimeDifferences(){
+	var userHomeSelection = $(".user_location select")[0]
+	var userTimeDifference = userHomeSelection.options[userHomeSelection.selectedIndex].getAttribute('value')
+	var userLocation = userHomeSelection.options[userHomeSelection.selectedIndex].text
+	var otherSelections = $(".selection select")
+	var output = userLocation + "\n"
+	for (i=0; i<otherSelections.length; i++) {
+		otherTimeDifference = otherSelections[i].options[otherSelections[i].selectedIndex].getAttribute('value')  
+		otherLocation = otherSelections[i].options[otherSelections[i].selectedIndex].text  
+		output = output + otherLocation + "\n"
+	}
+	console.log( output )
+}
 
 function initializeSavedSelections(indexValues) {
-	console.log( indexValues )
-	if (indexValues.length > 0) {
-		for (i=0; i<indexValues.length; i++) {
-			$(".selection").append(timezoneSelector)
-			$(".selection select")[i].selectedIndex = indexValues[i]
-		}
-	} else {
-		$(".selection").append(timezoneSelector);
-		$selections = $('select')
+	for (i=0; i<indexValues.length; i++) {
+		if (i === 0) {
+			$(".user_location").append(timezoneSelector)	
+		} else {
+			remove_button = '<div class="remove_button"></div>'
+			$(".selection").append('<div>' + timezoneSelector + remove_button + '</div>')
 	}
-	saveSelectionData
+		$("select")[i].selectedIndex = indexValues[i]
+	}
 }
 
 function saveSelectionData(){
@@ -31,9 +61,3 @@ function saveSelectionData(){
 	}
 	localStorage.selectionsInitial = selectionsInitial
 }
-
-
-
-// To get the value in the select box but this only does the top one
-
-// $( "select option:selected" ).attr("timeZoneId")

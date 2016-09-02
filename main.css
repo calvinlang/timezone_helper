@@ -5,9 +5,28 @@ select {
 	width: 300px;
 }
 
-.add_button {
+.user_location {
+	margin-bottom: 20px;
+}
+
+#add_button {
 	width: 40px;
 	height: 20px;
 	background-color: red;
+	display: inline-block;
+}
+
+#create {
+	width: 40px;
+	height: 20px;
+	background-color: blue;
+	display: inline-block;
+}
+
+.remove_button {
+	width: 20px;
+	height: 20px;
+	background-color: red;
+	display: inline-block;
 }
 
