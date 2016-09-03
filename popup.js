@@ -19,12 +19,14 @@ $('document').ready(function(){
 	$("#create").click(function(){
 		calculateTimeDifferences()
 	})
+	convertTimeToSeconds("12:00:00")
 
 });
 
-// $("select").find(':selected')[0].text for the text
-// sel = $('select')[0]
-// sel.options[sel.selectedIndex].getAttribute('value') to get the values
+function GMTTime(time, timeDifference) {
+	console.log( "time " + time )
+	console.log( "timeDifference" +timeDifference )
+}
 
 function calculateTimeDifferences(){
 	var userHomeSelection = $(".user_location select")[0]
@@ -35,9 +37,8 @@ function calculateTimeDifferences(){
 	for (i=0; i<otherSelections.length; i++) {
 		otherTimeDifference = otherSelections[i].options[otherSelections[i].selectedIndex].getAttribute('value')  
 		otherLocation = otherSelections[i].options[otherSelections[i].selectedIndex].text  
-		output = output + otherLocation + "\n"
+		output = output + otherTimeDifference + otherLocation + "\n"
 	}
-	console.log( output )
 }
 
 function initializeSavedSelections(indexValues) {
