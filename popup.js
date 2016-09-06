@@ -19,13 +19,44 @@ $('document').ready(function(){
 	$("#create").click(function(){
 		calculateTimeDifferences()
 	})
-	convertTimeToSeconds("12:00:00")
+
+	var time = $("input").val();
+	var home = $(".user_location select")[0]
+	var locations = $(".selection select")
+
+	var output = new TimeOutput(time,home,locations)
 
 });
 
-function GMTTime(time, timeDifference) {
-	console.log( "time " + time )
-	console.log( "timeDifference" +timeDifference )
+
+function TimeOutput(time, homeSelection, selections) {
+	this.time = time
+	this.homeSelection = homeSelection
+	this.selections = selections
+
+	this.homeTimeDifference = Number(this.homeSelection.options[this.homeSelection.selectedIndex].getAttribute('value'))
+	this.homeLocation = this.homeSelection.options[this.homeSelection.selectedIndex].text
+	GMTTimeArray(this.time, 8.5) 
+
+	function timeAsArray(time) {
+		var timeArray = time.split(':').slice(0,2)
+		timeArray[0] = Number(timeArray[0])
+		timeArray[1] = Number(timeArray[1])
+		return timeArray
+	}
+
+	function GMTTimeArray(time, timeDifference){
+		var timeArray = timeAsArray(time)
+		console.log( timeArray )
+		// if (Number.isInteger(timeDifference)) {
+		// 	return [timeArray[0] + timeDifference, timeArray[1]]
+		// } else if ( timeDifference > 0 ) {
+		// 	return [ timeArray[0] + Math.floor(timeDifference), timeArray[1] + 30 ]
+		// } else {
+		// 	return [ timeArray[0] + Math.round(timeDifference), timeArray[1] + 30 ]
+		// }
+	}
+
 }
 
 function calculateTimeDifferences(){
